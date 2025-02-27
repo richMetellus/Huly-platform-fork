@@ -18,7 +18,7 @@ import { WorkspaceClient } from '../workspace/workspaceClient'
 
 async function stream2buffer (stream: Stream): Promise<Buffer> {
   return await new Promise<Buffer>((resolve, reject) => {
-    const _buf = Array<any>()
+    const _buf: Buffer[] = []
     stream.on('data', (chunk) => {
       _buf.push(chunk)
     })

@@ -28,7 +28,7 @@ describe('pdf-parse', () => {
   })
   it('check hh5', async () => {
     const data = await readFile('./demo/pdf5.pdf')
-    const { resume } = await extractDocument(data)
+    const { resume } = await extractDocument(data) 
 
     expect(resume.firstName).toBe('Александр')
     expect(resume.lastName).toBe('Сизых')
@@ -40,7 +40,7 @@ describe('pdf-parse', () => {
   })
   it('check hh4', async () => {
     const data = await readFile('./demo/pdf4.pdf')
-    const { resume } = await extractDocument(data)
+    const { resume } = await extractDocument(data) 
 
     expect(resume.firstName).toBe('Алексей Владимирович')
     expect(resume.lastName).toBe('Пешков')
@@ -50,7 +50,7 @@ describe('pdf-parse', () => {
 
   it('check hh3', async () => {
     const data = await readFile('./demo/pdf3.pdf')
-    const { resume } = await extractDocument(data)
+    const { resume } = await extractDocument(data) 
 
     expect(resume.firstName).toBe('Ильнур')
     expect(resume.lastName).toBe('Сербаев')
@@ -73,7 +73,7 @@ describe('pdf-parse', () => {
 
   it('check podbor', async () => {
     const data = await readFile('./demo/pdf1.pdf')
-    const { resume } = await extractDocument(data)
+    const { resume } = await extractDocument(data) 
 
     expect(resume.firstName).toBe('Sergey')
     expect(resume.lastName).toBe('Ushnurtsev')
