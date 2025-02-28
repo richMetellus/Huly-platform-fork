@@ -51,7 +51,7 @@ import {
   LOGGING_ENABLED,
   pingConst,
   type Pipeline,
-  PipelineFactory,
+  type PipelineFactory,
   type ServerFactory,
   type SessionManager,
   type StorageAdapter,
@@ -489,7 +489,7 @@ export class TSessionManager implements SessionManager {
           workspace: workspaceInfo.uuid,
           wsUrl: workspaceInfo.url
         })
-        pipeline = await ctx.with('💤 wait-pipeline', {}, () => (workspace).pipeline)
+        pipeline = await ctx.with('💤 wait-pipeline', {}, () => workspace.pipeline)
       } else {
         ctx.warn('reconnect workspace in upgrade switch', {
           email: token.account,
@@ -524,7 +524,7 @@ export class TSessionManager implements SessionManager {
 
       try {
         if (workspace.pipeline instanceof Promise) {
-          pipeline = await ctx.with('💤 wait-pipeline', {}, () => (workspace).pipeline)
+          pipeline = await ctx.with('💤 wait-pipeline', {}, () => workspace.pipeline)
           workspace.pipeline = pipeline
         } else {
           pipeline = workspace.pipeline

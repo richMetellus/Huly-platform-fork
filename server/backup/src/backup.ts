@@ -326,7 +326,7 @@ async function verifyDigest (
         }
         let lmodified = false
         try {
-          const dataBlob = gunzipSync((await storage.loadFile(snapshot)))
+          const dataBlob = gunzipSync(await storage.loadFile(snapshot))
             .toString()
             .split('\n')
           const addedCount = parseInt(dataBlob.shift() ?? '0')
@@ -742,7 +742,7 @@ export async function backup (
     const infoFile = 'backup.json.gz'
 
     if (await storage.exists(infoFile)) {
-      backupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+      backupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
     }
     backupInfo.version = '0.6.2'
 
@@ -1343,7 +1343,7 @@ export async function backup (
     let sizeInfo: Record<string, number> = {}
 
     if (await storage.exists(sizeFile)) {
-      sizeInfo = JSON.parse(gunzipSync((await storage.loadFile(sizeFile))).toString())
+      sizeInfo = JSON.parse(gunzipSync(await storage.loadFile(sizeFile)).toString())
     }
     let processed = 0
 
@@ -1411,7 +1411,7 @@ export async function backupList (storage: BackupStorage): Promise<void> {
   if (!(await storage.exists(infoFile))) {
     throw new Error(`${infoFile} should present to restore`)
   }
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
   for (const s of backupInfo.snapshots) {
     console.log('snapshot: id:', s.date, ' date:', new Date(s.date))
@@ -1427,7 +1427,7 @@ export async function backupRemoveLast (storage: BackupStorage, date: number): P
   if (!(await storage.exists(infoFile))) {
     throw new Error(`${infoFile} should present to restore`)
   }
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
   const old = backupInfo.snapshots.length
   backupInfo.snapshots = backupInfo.snapshots.filter((it) => it.date < date)
@@ -1449,7 +1449,7 @@ export async function backupSize (storage: BackupStorage): Promise<void> {
   }
   let size = 0
 
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
   const addFileSize = async (file: string | undefined | null): Promise<void> => {
     if (file != null && (await storage.exists(file))) {
@@ -1488,12 +1488,12 @@ export async function backupDownload (storage: BackupStorage, storeIn: string): 
   }
   let size = 0
 
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
 
   let sizeInfo: Record<string, number> = {}
   if (await storage.exists(sizeFile)) {
-    sizeInfo = JSON.parse(gunzipSync((await storage.loadFile(sizeFile))).toString())
+    sizeInfo = JSON.parse(gunzipSync(await storage.loadFile(sizeFile)).toString())
   }
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
 
@@ -1554,7 +1554,7 @@ export async function backupFind (storage: BackupStorage, id: Ref<Doc>, domain?:
   if (!(await storage.exists(infoFile))) {
     throw new Error(`${infoFile} should present to restore`)
   }
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   console.log('workspace:', backupInfo.workspace ?? '', backupInfo.version)
 
   const toolCtx = new MeasureMetricsContext('', {})
@@ -1651,7 +1651,7 @@ export async function restore (
     ctx.error('file not pressent', { file: infoFile })
     throw new Error(`${infoFile} should present to restore`)
   }
-  const backupInfo: BackupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+  const backupInfo: BackupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
   let snapshots = backupInfo.snapshots
   if (opt.date !== -1) {
     const bk = backupInfo.snapshots.findIndex((it) => it.date === opt.date)
@@ -2164,7 +2164,7 @@ export async function compactBackup (
     const infoFile = 'backup.json.gz'
 
     if (await storage.exists(infoFile)) {
-      backupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+      backupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
     } else {
       console.log('No backup found')
       return
@@ -2501,7 +2501,7 @@ export async function checkBackupIntegrity (ctx: MeasureContext, storage: Backup
     const infoFile = 'backup.json.gz'
 
     if (await storage.exists(infoFile)) {
-      backupInfo = JSON.parse(gunzipSync((await storage.loadFile(infoFile))).toString())
+      backupInfo = JSON.parse(gunzipSync(await storage.loadFile(infoFile)).toString())
     } else {
       console.log('No backup found')
       return
